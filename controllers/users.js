@@ -4,7 +4,7 @@ import ErrorResponse from '../utils/ErrorResponse.js';
 
 export const getUsers = asyncHandler( async (req, res) => {
   const users = await User.findAll();
-  res.json(users);
+  res.status(200).json(users);
 });
 
 export const createUser = asyncHandler( async (req, res) => {
@@ -12,9 +12,9 @@ export const createUser = asyncHandler( async (req, res) => {
     body: { name, email, password }
   } = req;
   const found = await User.findOne({ where: { email } });
-  if (found) throw new ErrorResponse('User with that email already exists');
+  if (found) throw new ErrorResponse('User with that email already exists', 400);
   const user = await User.create(req.body);
-  res.json(user);
+  res.status(201).json(user);
 });
 
 export const getUserById = asyncHandler( async (req, res) => {
@@ -23,8 +23,8 @@ export const getUserById = asyncHandler( async (req, res) => {
       params: { id }
     } = req;
     const user = await User.findByPk(id);
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json(user);
+    if (!user) throw new ErrorResponse('User not found', 404);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -36,9 +36,9 @@ export const updateUser = asyncHandler( async (req, res) => {
     params: { id }
   } = req;
   const user = await User.findByPk(id);
-  if (!user) throw new ErrorResponse('User not found');
+  if (!user) throw new ErrorResponse('User not found', 404);
   await user.update(req.body);
-  res.json(user);
+  res.status(200).json(user);
 });
 
 export const deleteUser = asyncHandler( async (req, res) => {
