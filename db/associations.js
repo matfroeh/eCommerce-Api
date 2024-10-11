@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import Category from "../models/Category.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
+import OrderProduct from "../models/OrderProduct.js";
 
 Category.hasMany(Product, {
   foreignKey: { allowNull: false, name: "categoryId" },
@@ -19,6 +20,8 @@ Order.belongsTo(User, {
   foreignKey: { allowNull: false, name: "userId" },
   onDelete: "CASCADE",
 });
+
+Product.belongsToMany(Order, { through: OrderProduct });
 
 //  ???? the model should have the foreign key inside the array products???? how
 
