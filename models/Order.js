@@ -2,10 +2,6 @@ import { DataTypes } from "sequelize";
 import sequelize from "../db/index.js";
 
 const Order = sequelize.define("Order", {
-  products: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER, DataTypes.INTEGER),
-    allowNull: false,
-  },
   total: {
     type: DataTypes.FLOAT,
     allowNull: false,
