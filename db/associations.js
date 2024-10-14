@@ -22,15 +22,6 @@ Order.belongsTo(User, {
 });
 
 Product.belongsToMany(Order, { through: OrderProduct });
-
-//  ???? the model should have the foreign key inside the array products???? how
-
-// Product.hasMany(Order, {
-//   foreignKey: { allowNull: false, name: "productId" },
-// });
-// Order.belongsTo(Product, {
-//   foreignKey: { allowNull: false, name: "productId" },
-//   onDelete: "CASCADE",
-// });
+Order.belongsToMany(Product, { through: OrderProduct });
 
 sequelize.sync();
